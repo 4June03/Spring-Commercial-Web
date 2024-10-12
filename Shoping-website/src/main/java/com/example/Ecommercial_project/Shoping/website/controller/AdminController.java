@@ -102,4 +102,34 @@ public class AdminController {
 
         return "redirect:/admin/category";
     }
+
+    @GetMapping("/loadEditCategory/{id}")
+    public String loadEditCategory(@PathVariable int id, Model model){
+
+        model.addAttribute("category",categoryService.findCategoryById(id));
+
+        return "admin/edit_category";
+    }
+
+    @PostMapping("/updateCategory")
+    public String updateCategory(@ModelAttribute Category category, @RequestParam("file")MultipartFile file, HttpSession session){
+        Category oldCategory = categoryService.findCategoryById(category.getId());
+        if(!ObjectUtils.isEmpty(oldCategory)){
+            oldCategory.setName(category.getName());
+            oldCategory.setIsActive(category.getIsActive());
+            //Nếu file mới lỗi thì lấy ảnh file cũ
+           String imageName =  file!=null?file.getOriginalFilename():oldCategory.getImageName();
+            oldCategory.setImageName(imageName);
+
+        }
+
+        Category updatedCategory =  categoryService.saveCategory(oldCategory);
+        if(!ObjectUtils.isEmpty(updatedCategory)){
+            session.setAttribute("succMsg", "Updated category success");
+        }else{
+            session.setAttribute("errorMsg", "Failed to update category");
+        }
+
+        return "redirect:/admin/loadEditCategory/"+updatedCategory.getId();
+    }
 }
