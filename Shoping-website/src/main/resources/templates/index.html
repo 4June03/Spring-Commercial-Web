@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org
+" th:replace="~{base::layout(~{::section})}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+</head>
+<body>
+   <section >
+<!--       start slide-->
+           <div id="carouselExampleIndicators" class="carousel slide">
+               <div class="carousel-indicators">
+                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+               </div>
+               <div class="carousel-inner">
+                   <div class="carousel-item active">
+                       <img src="img/background1.png" class="d-block w-100" alt="..." height="400px">
+                   </div>
+
+                   <div class="carousel-item active">
+                       <img src="img/background1.png" class="d-block w-100" alt="..." height="400px">
+                   </div>
+
+                   <div class="carousel-item active">
+                       <img src="img/background1.png" class="d-block w-100" alt="..." height="400px">
+                   </div>
+
+               </div>
+               <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                   <span class="visually-hidden">Previous</span>
+               </button>
+               <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                   <span class="visually-hidden">Next</span>
+               </button>
+           </div>
+
+       <!--end slide-->
+
+<!--     start  Category module-->
+        <div class="container">
+            <div class="row">
+                <p class="text-center fs-4">Category</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="card-body text-center">
+                            <img src="img/category_images/electronics.png" alt="Anh cate" height="60%" width="100px">
+                            <p>Electronics</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="card-body text-center">
+                            <img src="img/category_images/electronics.png" alt="Anh cate" height="60%" width="100px">
+                            <p>Electronics</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="card-body text-center">
+                            <img src="img/category_images/electronics.png" alt="Anh cate" height="60%" width="100px">
+                            <p>Electronics</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="card-body text-center">
+                            <img src="img/category_images/electronics.png" alt="Anh cate" height="60%" width="100px">
+                            <p>Electronics</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="card-body text-center">
+                            <img src="img/category_images/electronics.png" alt="Anh cate" height="60%" width="100px">
+                            <p>Electronics</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="card-body text-center">
+                            <img src="img/category_images/electronics.png" alt="Anh cate" height="60%" width="100px">
+                            <p>Electronics</p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+
+        </div>
+<!--        End cate module-->
+
+<!--       Start Latest product-->
+
+       <div class="container-fluid bg-light p-3 mt-4">
+           <div class="row">
+               <p class="text-center fs-4">Latest products</p>
+           </div>
+           <div class="row">
+
+               <div class="col-md-3">
+                   <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                       <div class="card-body text-center">
+                          <img src="img/product_images/laptop1.jpg" alt="ảnh sản phẩm"
+                            width="75%" height="150px"
+                          >
+                           <p class="text-center">Tên sản phẩm</p>
+                           <p class="text-center">100000đ</p>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="col-md-3">
+                   <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                       <div class="card-body text-center">
+                           <img src="img/product_images/laptop1.jpg" alt="ảnh sản phẩm"
+                                width="75%" height="150px"
+                           >
+                           <p class="text-center">Tên sản phẩm</p>
+                           <p class="text-center">100000đ</p>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="col-md-3">
+                   <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                       <div class="card-body text-center">
+                           <img src="img/product_images/laptop1.jpg" alt="ảnh sản phẩm"
+                                width="75%" height="150px"
+                           >
+                           <p class="text-center">Tên sản phẩm</p>
+                           <p class="text-center">100000đ</p>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="col-md-3">
+                   <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                       <div class="card-body text-center">
+                           <img src="img/product_images/laptop1.jpg" alt="ảnh sản phẩm"
+                                width="75%" height="150px"
+                           >
+                           <p class="text-center">Tên sản phẩm</p>
+                           <p class="text-center">100000đ</p>
+                       </div>
+                   </div>
+               </div>
+
+
+
+           </div>
+
+       </div>
+
+
+       <!--       Start Latest product-->
+   </section>
+
+</body>
+</html>
