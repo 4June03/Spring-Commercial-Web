@@ -12,7 +12,18 @@
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-header text-center fs-4">
-                    Add product
+                   <p class="fs-4">Add product</p>
+
+                    <th:block th:if="${session.succMsg}">
+                        <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+
+                    <th:block th:if="${session.errorMsg}">
+                        <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+
                 </div>
                 <div class="card-body">
                     <form action="/admin/saveProduct" method="post"
@@ -31,7 +42,7 @@
                         <div class="mb-3">
                             <label>Category</label> <select class="form-control"
                                                             name="category">
-                            <option>--select--</option>
+                            <option th:each="cat:${categories}">[[${cat.name}]]</option>
                         </select>
                         </div>
 
