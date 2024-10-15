@@ -42,7 +42,7 @@ public class HomeController {
     public String showProducts(Model model){
 
        List<Category> categories = categoryService.getAllActiveCategory();
-       List<Product> products = productService.getAllProduct();
+       List<Product> products = productService.getAllActiveProduct();
 
        model.addAttribute("categories",categories);
        model.addAttribute("products",products);

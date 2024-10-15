@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         oldProduct.setPrice(product.getPrice());
         oldProduct.setStock(product.getStock());
         oldProduct.setCategory(product.getCategory());
-
+        oldProduct.setIsActive(product.getIsActive());
         oldProduct.setDiscount(product.getDiscount());
 
         //tiền giảm 5 = 100*(5/100); => giá discount = giá - tiền giảm
@@ -102,5 +102,11 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Product> getAllActiveProduct() {
+        List<Product> products = productRepository.findByIsActiveTrue();
+        return products;
     }
 }
