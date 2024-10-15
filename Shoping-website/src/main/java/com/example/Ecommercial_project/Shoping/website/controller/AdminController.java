@@ -120,6 +120,8 @@ public class AdminController {
     @PostMapping("/updateCategory")
     public String updateCategory(@ModelAttribute Category category, @RequestParam("file")MultipartFile file, HttpSession session){
         Category oldCategory = categoryService.findCategoryById(category.getId());
+
+        //Nếu category không rỗng
         if(!ObjectUtils.isEmpty(oldCategory)){
             oldCategory.setName(category.getName());
             oldCategory.setIsActive(category.getIsActive());
@@ -171,4 +173,43 @@ public class AdminController {
         //trả về trang products.html trong thư mục admin
         return "/admin/products";
     }
+
+    @GetMapping("/deleteProduct/{id}")
+    public String deleteProductById(@PathVariable int id, HttpSession session){
+
+        Boolean isDeleted = productService.deleteProduct(id);
+        if (isDeleted){
+            session.setAttribute("succMsg", "Delete product success");
+        }else {
+            session.setAttribute("errorMsg", "Delete product failed");
+        }
+
+        return "redirect:/admin/products";
+
+    }
+
+    @GetMapping("/editProduct/{id}")
+    public String loadEidtProduct(@PathVariable int id, Model model){
+        Product editProduct = productService.findProductById(id);
+        List<Category> categories = categoryService.getAllCategory();
+
+        model.addAttribute("product",editProduct);
+        model.addAttribute("categories",categories);
+
+        return "/admin/edit_product";
+    }
+
+    @PostMapping("/updateProduct")
+    public String updateProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile file, HttpSession session){
+        Product updateProduct = productService.updateProduct(product, file);
+        if(!ObjectUtils.isEmpty(updateProduct)){
+            session.setAttribute("succMsg", "Update product success");
+        }else {
+            session.setAttribute("errorMsg", "Update product failed");
+        }
+
+        return "redirect:/admin/editProduct/"+product.getId();
+
+    }
+
 }
