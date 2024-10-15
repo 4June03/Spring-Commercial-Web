@@ -62,12 +62,23 @@ public class ProductServiceImpl implements ProductService {
 
         Product oldProduct = findProductById(product.getId());
 
+
+
         oldProduct.setTitle(product.getTitle());
         oldProduct.setDescription(product.getDescription());
         oldProduct.setImage(productImage);
         oldProduct.setPrice(product.getPrice());
         oldProduct.setStock(product.getStock());
         oldProduct.setCategory(product.getCategory());
+
+        oldProduct.setDiscount(product.getDiscount());
+
+        //tiền giảm 5 = 100*(5/100); => giá discount = giá - tiền giảm
+        //tiền giảm
+        Double discount = product.getPrice()*(product.getDiscount()/100.0);
+        //giá sau khi giảm
+        Double discountPrice = product.getPrice()-discount;
+        oldProduct.setDiscountPrice(discountPrice);
 
         Product updateProduct = productRepository.save(oldProduct);
 

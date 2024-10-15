@@ -145,6 +145,12 @@ public class AdminController {
     public String saveProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
         String image = file!=null?file.getOriginalFilename():"default.jpg";
         product.setImage(image);
+
+        //Set mặc điịnh discount
+        product.setDiscount(0);
+        //set giá discount mặc định là giá ban đầu vì discount 0%
+        product.setDiscountPrice(product.getPrice());
+
         Product isSaved = productService.saveProduct(product);
 
         if(!ObjectUtils.isEmpty(isSaved)){
@@ -201,11 +207,17 @@ public class AdminController {
 
     @PostMapping("/updateProduct")
     public String updateProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile file, HttpSession session){
-        Product updateProduct = productService.updateProduct(product, file);
-        if(!ObjectUtils.isEmpty(updateProduct)){
-            session.setAttribute("succMsg", "Update product success");
-        }else {
-            session.setAttribute("errorMsg", "Update product failed");
+
+        //validate discount >= 0 && <=100
+        if(product.getDiscount()<0 || product.getDiscount()>100){
+            session.setAttribute("errorMsg", "Invalid discount");
+        }else{
+            Product updateProduct = productService.updateProduct(product, file);
+            if(!ObjectUtils.isEmpty(updateProduct)){
+                session.setAttribute("succMsg", "Update product success");
+            }else {
+                session.setAttribute("errorMsg", "Update product failed");
+            }
         }
 
         return "redirect:/admin/editProduct/"+product.getId();
