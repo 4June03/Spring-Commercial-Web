@@ -28,11 +28,19 @@
                     <div class="card shadow-sm bg-body-tertiary rounded p-0">
                         <div class="card-body">
                             <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-                                    Category
+                                <p class="fs-4">Category</p>
+                                <a href="/product"
+                                   class="list-group-item list-group-item-action"
+                                   aria-current="true"
+                                   th:classappend="${paramValue==''}?'active':''"
+                                >
+                                    All
                                 </a>
-                                <a th:each="cat:${categories}" href="#" class="list-group-item list-group-item-action">[[${cat.name}]]</a>
-
+                                <a th:each="cat:${categories}"
+                                   th:href="@{'/product?category='+${cat.name}}"
+                                   th:classappend="${paramValue== cat.name? 'active':''}"
+                                   class="list-group-item list-group-item-action">[[${cat.name}]]
+                                </a>
 
                             </div>
                         </div>
@@ -62,7 +70,7 @@
                                                     [[${p.discount}]]% off
                                                 </span>
                                                 </p>
-                                                <a class="btn btn-primary col-md-6 offset-md-3 p-2" href="/view_product">View Details</a>
+                                                <a class="btn btn-primary col-md-6 offset-md-3 p-2" th:href="@{'/view_product/'+${p.id}}">View Details</a>
                                             </div>
                                         </div>
                                     </div>

@@ -12,30 +12,37 @@
             <div class="row">
                 <div class="col-md-12 p-5">
                     <div class="row">
-                    <div class="col-md-6 text-end">
-                        <img src="/img/product_images/laptop1.jpg" width="330px" height="440px">
+                    <div class="col-md-6 text-center">
+                        <img th:src="@{'/img/product_images/'+${product.image}}" width="330px" height="440px">
                     </div>
 
                     <div class="col-md-6">
-                        <p class="fs-3">Laptop</p>
+                        <p class="fs-3">[[${product.title}]]</p>
                         <p>
-                            <span class="fw-bold">Description</span><br> Iphone 15, 256 GB
+                            <span class="fw-bold">Description</span><br> [[${product.description}]]
                         </p>
                         <p>
                             <span class="fw-bold">Product details: </span>
                             <br>
-                            Status : <span class="badge bg-success">Available</span>
-                            <span class="badge bg-warning">Out of stock</span>
+                            Status :
+                            <th:block th:if="${product.stock>0}">
+                                <span class="badge bg-success">Available</span>
+                            </th:block>
+
+                            <th:block th:unless="${product.stock>0}">
+                                <span class="badge bg-warning">Out of stock</span>
+                            </th:block>
+
                             <br>
-                            Category: Laptop
+                            Category: [[${product.category}]]
                             <br>
                             Policy: 7 days Replacement & return
                         </p>
 
                         <p class="fs-5 fw-bold">
-                            Price: &nbsp; &nbsp; &nbsp; 7000000đ
-                            <span class="fs-6 text-decoration-line-through text-secondary">777777</span>
-                            <span class="fs-6 text-success">5%</span>
+                            Price: &nbsp; &nbsp; &nbsp; [[${product.discountPrice}]]
+                            <span class="fs-6 text-decoration-line-through text-secondary">[[${product.price}]]</span>
+                            <span class="fs-6 text-success">[[${product.discount}]]%</span>
                         </p>
 
                         <div class="row"> <div class="col-md-4 text-success text-center p-2"> <i class="fas fa-money-bill-wave fa-2x"></i> <p>Cash On Delivery</p>
@@ -45,8 +52,13 @@
                             </div>
                         </div>
 
-                        <a href="#" class="btn btn-danger col-md-12">Add to Card</a>
+                        <th:block th:if="${product.stock>0}">
+                            <a href="#" class="btn btn-danger col-md-12">Add to Card</a>
+                        </th:block>
 
+                        <th:block th:unless="${product.stock>0}">
+                            <a href="#" class="btn btn-warning text-white col-md-12">Out of stock</a>
+                        </th:block>
 
                     </div>
 
