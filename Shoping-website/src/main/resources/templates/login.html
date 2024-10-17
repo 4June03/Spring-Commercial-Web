@@ -25,12 +25,22 @@
                 <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
                     <div class="card-header bg-primary text-white">
                         <p class="fs-4 text-center">Login</p>
+
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            Invalid email or password
+                        </div>
+
+                        <div th:if="${param.logout}" class="alert alert-success">
+                            Logout successfully
+                        </div>
+
                     </div>
 
+
                     <div class="card-body">
-                        <form>
+                        <form method="post" action="/login">
                             <div class="mb-3">
-                                <input class="form-control" name="email" type="email" placeholder="Email">
+                                <input class="form-control" name="username" type="email" placeholder="Email">
                             </div>
                             <div class="mb-3">
                                 <input class="form-control" name="password" type="password" placeholder="password">
