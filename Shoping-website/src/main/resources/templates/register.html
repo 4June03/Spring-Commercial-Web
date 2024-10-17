@@ -27,67 +27,77 @@
                         <p class="fs-4 text-center">Register</p>
                     </div>
 
+                    <th:block th:if="${session.succMsg}">
+                        <p class="text-success fw-bold text-center">[[${session.succMsg}]]</p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+
+                    <th:block th:if="${session.errorMsg}">
+                        <p class="text-danger fw-bold text-center">[[${session.errorMsg}]]</p>
+                        <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
+
                     <div class="card-body">
-                        <form>
+                        <form method="post" action="/saveUser" enctype="multipart/form-data">
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Full name</label>
-                                    <input class="form-control" name="name" type="text">
+                                    <input class="form-control" name="name" type="text" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">phone number</label>
-                                    <input class="form-control" name="phone" type="text" >
+                                    <input class="form-control" name="mobileNumber" type="text" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col">
                                     <label class="form-label">Email</label>
-                                    <input class="form-control" name="email" type="email">
+                                    <input class="form-control" name="email" type="email" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Address</label>
-                                    <input class="form-control" name="address" type="text">
+                                    <input class="form-control" name="address" type="text" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">city</label>
-                                    <input class="form-control" name="city" type="text" >
+                                    <input class="form-control" name="city" type="text" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">State</label>
-                                    <input class="form-control" name="state" type="text">
+                                    <input class="form-control" name="state" type="text" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">Pin code</label>
-                                    <input class="form-control" name="pincode" type="number" >
+                                    <input class="form-control" name="pincode" type="number" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Pasword</label>
-                                    <input class="form-control" name="password" type="password">
+                                    <input class="form-control" name="password" type="password" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">Confirm password</label>
-                                    <input class="form-control" name="cpassword" type="password" >
+                                    <input class="form-control" name="cpassword" type="password" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col">
                                     <label class="form-label">Profile image</label>
-                                    <input class="form-control" name="profile_image" type="file">
+                                    <input class="form-control" name="imageFile" type="file">
                                 </div>
                             </div>
 
