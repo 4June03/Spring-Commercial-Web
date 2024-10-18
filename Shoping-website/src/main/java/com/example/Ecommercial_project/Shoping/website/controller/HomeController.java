@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -35,6 +36,21 @@ public class HomeController {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userService = userService;
+    }
+
+    @ModelAttribute
+    public void getUserDetails(Principal p, Model model){
+        if(p!=null){
+            String email = p.getName();
+            UserDtls userDtls = userService.getUserByEmail(email);
+            model.addAttribute("user",userDtls);
+
+        }
+
+        //Lấy danh sách category để truyền vào navbar
+        List<Category> activeCategories = categoryService.getAllActiveCategory();
+        model.addAttribute("categories",activeCategories);
+
     }
 
 

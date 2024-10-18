@@ -2,8 +2,10 @@ package com.example.Ecommercial_project.Shoping.website.controller;
 
 import com.example.Ecommercial_project.Shoping.website.model.Category;
 import com.example.Ecommercial_project.Shoping.website.model.Product;
+import com.example.Ecommercial_project.Shoping.website.model.UserDtls;
 import com.example.Ecommercial_project.Shoping.website.service.CategoryService;
 import com.example.Ecommercial_project.Shoping.website.service.ProductService;
+import com.example.Ecommercial_project.Shoping.website.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
@@ -21,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,12 +32,29 @@ public class AdminController {
 
     private CategoryService categoryService;
     private ProductService productService;
+    private UserService userService;
+
 
     @Autowired
-    public AdminController(CategoryService categoryService, ProductService productService) {
+    public AdminController(CategoryService categoryService, ProductService productService, UserService userService) {
         this.categoryService = categoryService;
         this.productService = productService;
+        this.userService = userService;
     }
+
+    @ModelAttribute
+    public void getUserDetails(Principal p, Model model){
+        if(p!=null){
+            String email = p.getName();
+            UserDtls userDtls = userService.getUserByEmail(email);
+            model.addAttribute("user",userDtls);
+        }
+
+        //Lấy danh sách category để truyền vào navbar
+        List<Category> activeCategories = categoryService.getAllActiveCategory();
+        model.addAttribute("categories",activeCategories);
+    }
+
 
     @GetMapping("/")
     public String index(){
