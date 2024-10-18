@@ -244,4 +244,24 @@ public class AdminController {
 
     }
 
+    @GetMapping("/users")
+    public String getAllUsers(Model model){
+        List<UserDtls> users =  userService.getAllUsers("ROLE_USER");
+        model.addAttribute("users",users);
+        return "/admin/users";
+    }
+
+    @GetMapping("/updateStatus")
+    public String updateUserAccountStatus(@RequestParam Boolean status, @RequestParam Integer id,HttpSession session){
+       Boolean f = userService.updateAccountStatus(id,status);
+       if(f==true){
+           session.setAttribute("succMsg", "Account Status Updated");
+       }else {
+           session.setAttribute("errorMsg", "Account Status failed");
+       }
+
+
+        return "redirect:/admin/users";
+    }
+
 }
