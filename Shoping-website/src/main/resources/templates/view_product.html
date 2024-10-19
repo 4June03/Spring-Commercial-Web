@@ -7,11 +7,25 @@
     <title>Product detail</title>
 </head>
 <body>
-    <section>
-        <div class="container shadow mb-5 bg-body-tertiary rounded">
-            <div class="row">
-                <div class="col-md-12 p-5">
+<section>
+    <div class="container shadow mb-5 bg-body-tertiary rounded">
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <div class="row">
+
                     <div class="row">
+                        <th:block th:if="${session.succMsg}">
+                            <p class="text-success fw-bold text-center alert alert-success">[[${session.succMsg}]]</p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+
+                        <th:block th:if="${session.errorMsg}">
+                            <p class="text-danger fw-bold text-center alert alert-danger">[[${session.errorMsg}]]</p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                    </div>
+
+
                     <div class="col-md-6 text-center">
                         <img th:src="@{'/img/product_images/'+${product.image}}" width="330px" height="440px">
                     </div>
@@ -45,15 +59,30 @@
                             <span class="fs-6 text-success">[[${product.discount}]]%</span>
                         </p>
 
-                        <div class="row"> <div class="col-md-4 text-success text-center p-2"> <i class="fas fa-money-bill-wave fa-2x"></i> <p>Cash On Delivery</p>
-                        </div> <div class="col-md-4 text-danger text-center p-2"> <i class="fas fa-undo-alt fa-2x"></i> <p>Return Available</p>
-                        </div>
-                            <div class="col-md-4 text-primary text-center p-2"> <i class="fas fa-truck-moving fa-2x"></i> <p>Free Shipping</p>
+                        <div class="row">
+                            <div class="col-md-4 text-success text-center p-2"><i
+                                    class="fas fa-money-bill-wave fa-2x"></i>
+                                <p>Cash On Delivery</p>
+                            </div>
+                            <div class="col-md-4 text-danger text-center p-2"><i class="fas fa-undo-alt fa-2x"></i>
+                                <p>Return Available</p>
+                            </div>
+                            <div class="col-md-4 text-primary text-center p-2"><i class="fas fa-truck-moving fa-2x"></i>
+                                <p>Free Shipping</p>
                             </div>
                         </div>
 
                         <th:block th:if="${product.stock>0}">
-                            <a href="#" class="btn btn-danger col-md-12">Add to Card</a>
+                            <th:block th:if="${user==null}">
+                                <a href="/signin" class="btn btn-danger col-md-12">Add to Card</a>
+                            </th:block>
+
+                            <th:block th:unless="${user==null}">
+                                <a th:href="@{'/addToCart?pid='+${product.id}+'&uid='+${user.id}}"
+                                   class="btn btn-danger col-md-12">Add to Card</a>
+                            </th:block>
+
+
                         </th:block>
 
                         <th:block th:unless="${product.stock>0}">
@@ -62,12 +91,12 @@
 
                     </div>
 
-                    </div>
-
                 </div>
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 </body>
 </html>

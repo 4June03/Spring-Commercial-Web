@@ -1,8 +1,10 @@
 package com.example.Ecommercial_project.Shoping.website.controller;
 
+import com.example.Ecommercial_project.Shoping.website.model.Cart;
 import com.example.Ecommercial_project.Shoping.website.model.Category;
 import com.example.Ecommercial_project.Shoping.website.model.Product;
 import com.example.Ecommercial_project.Shoping.website.model.UserDtls;
+import com.example.Ecommercial_project.Shoping.website.service.CartService;
 import com.example.Ecommercial_project.Shoping.website.service.CategoryService;
 import com.example.Ecommercial_project.Shoping.website.service.ProductService;
 import com.example.Ecommercial_project.Shoping.website.service.UserService;
@@ -30,12 +32,14 @@ public class HomeController {
     private CategoryService categoryService;
     private ProductService productService;
     private UserService userService;
+    private CartService cartService;
 
     @Autowired
-    public HomeController(CategoryService categoryService, ProductService productService, UserService userService) {
+    public HomeController(CategoryService categoryService, ProductService productService, UserService userService, CartService cartService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userService = userService;
+        this.cartService = cartService;
     }
 
     @ModelAttribute
@@ -44,7 +48,8 @@ public class HomeController {
             String email = p.getName();
             UserDtls userDtls = userService.getUserByEmail(email);
             model.addAttribute("user",userDtls);
-
+        }else {
+            model.addAttribute("user",null);
         }
 
         //Lấy danh sách category để truyền vào navbar
@@ -124,6 +129,20 @@ public class HomeController {
         }
 
         return "redirect:/register";
+    }
+
+
+    @GetMapping("/addToCart")
+    public String addToCart(@RequestParam Integer pid, @RequestParam Integer uid, HttpSession session){
+        Cart savedCart = cartService.saveCart(pid, uid);
+
+        if(ObjectUtils.isEmpty(savedCart)){
+            session.setAttribute("errorMsg", "Add to cart failed");
+        }else {
+            session.setAttribute("succMsg", "Add to cart success");
+        }
+
+        return "redirect:/view_product/"+pid;
     }
 
 
