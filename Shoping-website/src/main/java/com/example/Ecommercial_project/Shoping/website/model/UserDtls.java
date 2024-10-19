@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,5 +40,11 @@ public class UserDtls {
     private String role;
 
     private Boolean isEnable;
+
+    private Boolean accountNonLocked;
+
+    private Integer failedAttempt;
+
+    private Date lockTime;
 
 }

@@ -12,5 +12,16 @@ public interface UserService {
 
     public List<UserDtls> getAllUsers(String role);
 
-    Boolean updateAccountStatus(Integer id, Boolean status);
+    public Boolean updateAccountStatus(Integer id, Boolean status);
+
+    public void increaseFailedAttempt(UserDtls user);
+
+    public void userAccountLock(UserDtls user);
+
+    public boolean unlockAccountTimeExpired(UserDtls user);
+
+    public void resetAttempt(int userId);
+
+
+
 }
