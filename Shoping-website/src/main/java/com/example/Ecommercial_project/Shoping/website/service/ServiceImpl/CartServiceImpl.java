@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,6 +55,55 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> getCartsByUser(Integer userId) {
-        return List.of();
+        List<Cart> carts = cartRepository.findByUserId(userId);
+
+        Double totalOrderPrice = 0.0;
+
+        List<Cart> updateCarts = new ArrayList<>();
+
+        for (Cart c: carts){
+            //Tính tổng tiền của từng product với số lượng trong cart
+            Double totalPrice = (c.getProduct().getDiscountPrice()*c.getQuantity());
+            c.setTotalPrice(totalPrice);
+
+            //Tổng tiền của giỏ hàng
+            totalOrderPrice+= c.getTotalPrice();
+            c.setTotalOrderPrice(totalOrderPrice);
+            updateCarts.add(c);
+
+        }
+
+        return updateCarts;
+    }
+
+    @Override
+    public Integer getCountCart(Integer userId) {
+        Integer countByUserId = cartRepository.countByUserId(userId);
+
+        return countByUserId;
+    }
+
+    @Override
+    public void updateQuantity(String sy, Integer cid) {
+
+        Cart cartById = cartRepository.findById(cid).get();
+        int updateQuantity;
+        if (sy.equalsIgnoreCase("in")){
+            updateQuantity = cartById.getQuantity()+1;
+            cartById.setQuantity(updateQuantity);
+            cartRepository.save(cartById);
+
+        }else {
+            updateQuantity = cartById.getQuantity()-1;
+
+            //Nếu giảm số lượng = 0 hoặc nhỏ hơn thì xóa khỏi cart
+            if (updateQuantity<=0){
+                cartRepository.delete(cartById);
+            }else {
+                cartById.setQuantity(updateQuantity);
+                cartRepository.save(cartById);
+            }
+        }
+
     }
 }

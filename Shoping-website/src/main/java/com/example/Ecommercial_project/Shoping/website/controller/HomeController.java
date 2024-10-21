@@ -48,6 +48,9 @@ public class HomeController {
             String email = p.getName();
             UserDtls userDtls = userService.getUserByEmail(email);
             model.addAttribute("user",userDtls);
+            Integer countCart =  cartService.getCountCart(userDtls.getId());
+            //số lượng sản phẩm đang có trong giỏ
+            model.addAttribute("countCart",countCart);
         }else {
             model.addAttribute("user",null);
         }
@@ -132,18 +135,7 @@ public class HomeController {
     }
 
 
-    @GetMapping("/addToCart")
-    public String addToCart(@RequestParam Integer pid, @RequestParam Integer uid, HttpSession session){
-        Cart savedCart = cartService.saveCart(pid, uid);
 
-        if(ObjectUtils.isEmpty(savedCart)){
-            session.setAttribute("errorMsg", "Add to cart failed");
-        }else {
-            session.setAttribute("succMsg", "Add to cart success");
-        }
-
-        return "redirect:/view_product/"+pid;
-    }
 
 
 }

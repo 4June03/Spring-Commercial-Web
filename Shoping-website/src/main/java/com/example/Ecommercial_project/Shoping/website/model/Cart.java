@@ -23,5 +23,8 @@ public class Cart {
     @Transient //sử dụng để đánh dấu một thuộc tính của entity không nên được lưu trữ vào database
     private  Double totalPrice;
 
+    @Transient
+    private Double totalOrderPrice;
+
 
 }
