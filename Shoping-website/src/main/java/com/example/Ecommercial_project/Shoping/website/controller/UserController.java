@@ -2,23 +2,19 @@ package com.example.Ecommercial_project.Shoping.website.controller;
 
 import com.example.Ecommercial_project.Shoping.website.model.Cart;
 import com.example.Ecommercial_project.Shoping.website.model.Category;
+import com.example.Ecommercial_project.Shoping.website.model.OrderRequest;
 import com.example.Ecommercial_project.Shoping.website.model.UserDtls;
-import com.example.Ecommercial_project.Shoping.website.service.CartService;
-import com.example.Ecommercial_project.Shoping.website.service.CategoryService;
-import com.example.Ecommercial_project.Shoping.website.service.ProductService;
-import com.example.Ecommercial_project.Shoping.website.service.UserService;
+import com.example.Ecommercial_project.Shoping.website.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/user")
@@ -28,13 +24,15 @@ public class UserController {
     private ProductService productService;
     private UserService userService;
     private CartService cartService;
+    private OrderService orderService;
 
     @Autowired
-    public UserController(CategoryService categoryService, ProductService productService, UserService userService, CartService cartService) {
+    public UserController(CategoryService categoryService, ProductService productService, UserService userService, CartService cartService, OrderService orderService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userService = userService;
         this.cartService = cartService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
@@ -102,6 +100,38 @@ public class UserController {
 
         cartService.updateQuantity(sy,cid);
         return "redirect:/user/cart";
+    }
+
+    @GetMapping("/orders")
+    public String orderPage(Principal p, Model model){
+        UserDtls userDtls = getLoggedInUserDetails(p);
+        List<Cart> carts = cartService.getCartsByUser(userDtls.getId());
+        model.addAttribute("carts",carts);
+
+        if(carts.size()>0){
+            Double deliverFee = 25000.0; //phí ship
+            Double tax = carts.get(carts.size()-1).getTotalOrderPrice()*(5.0/100); //Thuế 5%
+            Double orderPrice = carts.get(carts.size()-1).getTotalOrderPrice();//tổng chưa thuế + ship
+            Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice()+tax+deliverFee; //tổng thuế + ship
+            model.addAttribute("totalOrderPrice",totalOrderPrice);
+            model.addAttribute("orderPrice",orderPrice);
+            model.addAttribute("tax",tax);
+        }
+
+        return "/user/order";
+    }
+
+    @PostMapping("/save-order")
+    public String saveOrder(@ModelAttribute OrderRequest request, Principal p){
+        //System.out.println(request);
+        UserDtls user = getLoggedInUserDetails(p);
+        orderService.saveOrder(user.getId(),request);
+        return "redirect:/user/success";
+    }
+
+    @GetMapping("/success")
+    public String loadSuccess(){
+        return "/user/success";
     }
 
 }

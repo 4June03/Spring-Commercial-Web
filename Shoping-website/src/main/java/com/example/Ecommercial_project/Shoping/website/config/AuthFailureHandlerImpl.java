@@ -35,30 +35,38 @@ public class AuthFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandle
 
         UserDtls userDtls = userRepository.findByEmail(email);
 
-        if (userDtls.getIsEnable()){
 
-            if (userDtls.getAccountNonLocked()){ //Nếu tài khoản chưa bị khóa
+        if(userDtls!=null) {
 
-                if (userDtls.getFailedAttempt()< AppConstant.ATTEMPT_TIME){ //Số lần nhập sai < 3
-                    userService.increaseFailedAttempt(userDtls); //tăng số lần nhập sai của tài khoản này
-                }else { //Nhập sai quá 3 lần
-                    userService.userAccountLock(userDtls);//Khóa tài khoản
-                    exception = new LockedException("Your account is locked !! failed attempt "+userDtls.getFailedAttempt());
+            if (userDtls.getIsEnable()) {
+
+                if (userDtls.getAccountNonLocked()) { //Nếu tài khoản chưa bị khóa
+
+                    if (userDtls.getFailedAttempt() < AppConstant.ATTEMPT_TIME) { //Số lần nhập sai < 3
+                        userService.increaseFailedAttempt(userDtls); //tăng số lần nhập sai của tài khoản này
+                    } else { //Nhập sai quá 3 lần
+                        userService.userAccountLock(userDtls);//Khóa tài khoản
+                        exception = new LockedException("Your account is locked !! failed attempt " + userDtls.getFailedAttempt());
+                    }
+
+                } else { //Nếu đã bị khóa
+
+                    if (userService.unlockAccountTimeExpired(userDtls)) { //Nếu hết thời gian khóa
+                        exception = new LockedException("Your account is unlocked !! please try to login");
+                    } else {
+                        exception = new LockedException("Your account is locked");
+                    }
+
                 }
 
-            }else { //Nếu đã bị khóa
-
-                if(userService.unlockAccountTimeExpired(userDtls)){ //Nếu hết thời gian khóa
-                    exception = new LockedException("Your account is unlocked !! please try to login");
-                }else {
-                    exception = new LockedException("Your account is locked");
-                }
-
+            } else {
+                exception = new LockedException("Your account is inactive");
             }
 
         }else {
-            exception = new LockedException("Your account is inactive");
+            exception = new LockedException("Email or password is invalid");
         }
+
         super.setDefaultFailureUrl("/signin?error");//Bất kì lỗi nào thì url này sẽ được nhập
         super.onAuthenticationFailure(request, response, exception);
     }
