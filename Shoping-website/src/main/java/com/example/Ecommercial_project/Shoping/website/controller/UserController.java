@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
@@ -132,6 +133,18 @@ public class UserController {
     @GetMapping("/success")
     public String loadSuccess(){
         return "/user/success";
+    }
+
+    @GetMapping("/profile")
+    public String profile(){
+        return "/user/profile";
+    }
+
+    @PostMapping("/update-profile")
+    public String updateProfile(@ModelAttribute UserDtls user, @RequestParam MultipartFile file){
+        userService.updateUserProfile(user, file);
+
+        return "redirect:/user/profile";
     }
 
 }

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5 p-5">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 ">
+                <!--                <div class="card">-->
+                <div class="card-body">
+                    <p class="fs-3 text-center">My profile</p>
+                    <hr>
+                    <div class="text-center">
+                        <img class="border p-2" alt="" th:src="@{'../img/profile_images/'+${user.profileImage}}" width="130px"
+                             height="130px" style="border-radius: 50%;">
+                    </div>
+
+
+                    <div class="col-md-6 offset-md-3">
+                        <table class="table table-borderless">
+                            <tbody>
+                            <form method="post" action="/user/update-profile" enctype="multipart/form-data">
+                                <tr>
+                                    <th scope="row">Name</th>
+                                    <td><input type="text" class="form-control" th:value="${user.name}" name="name"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">Mobile number</th>
+                                    <td><input type="text" class="form-control" th:value="${user.mobileNumber}" name="mobileNumber"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">email</th>
+                                    <td><input type="text" class="form-control" th:value="${user.email}" readonly></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">Address</th>
+                                    <td><input type="text" class="form-control" th:value="${user.address}" name="address"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">City</th>
+                                    <td><input type="text" class="form-control" th:value="${user.city}" name="city"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">State</th>
+                                    <td><input type="text" class="form-control" th:value="${user.state}" name="state"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">pincode</th>
+                                    <td><input type="text" class="form-control" th:value="${user.pincode}" name="pincode"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">Image</th>
+                                    <td><input type="file" class="form-control" value="Nghia" name="file"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">Role</th>
+                                    <td><input type="text" class="form-control" th:value="${user.role}" readonly></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">Account status</th>
+                                    <td><input type="text" class="form-control"th:value="${user.isEnable}" readonly>
+                                        <input type="hidden" th:value="${user.id}" name="id">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" class="text-center">
+                                        <button class="btn btn-primary">Update</button>
+                                    </td>
+                                </tr>
+
+                            </form>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--                    </div>-->
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="col-md-10 offset-md-1 mt-1">
+            <div class="row">
+                <p class="text-center fs-3"> Change Password</p>
+
+                <div class="col-md-6 offset-md-3">
+                    <table class="table table-border-less">
+                        <tbody>
+                        <form>
+                            <tr>
+                                <th scope="row">Current password</th>
+                                <td><input type="text" class="form-control" value="Nghia" readonly></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">New password</th>
+                                <td><input type="text" class="form-control" value="Nghia" readonly></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Confirm new password</th>
+                                <td><input type="text" class="form-control" value="Nghia" readonly></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" class="text-center">
+                                    <button class="btn btn-primary">Change</button>
+                                </td>
+                            </tr>
+                        </form>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</section>
+</body>
+</html>

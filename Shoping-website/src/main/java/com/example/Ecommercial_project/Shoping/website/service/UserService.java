@@ -1,7 +1,9 @@
 package com.example.Ecommercial_project.Shoping.website.service;
 
 import com.example.Ecommercial_project.Shoping.website.model.UserDtls;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -21,6 +23,10 @@ public interface UserService {
     public boolean unlockAccountTimeExpired(UserDtls user);
 
     public void resetAttempt(int userId);
+
+    public UserDtls updateUser(UserDtls user);
+
+    public UserDtls updateUserProfile(UserDtls user, MultipartFile file) ;
 
 
 
