@@ -264,4 +264,10 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    @GetMapping("/search-order")
+    public String searchProduct(@RequestParam String orderId, Model model){
+
+        return "/admin/orders";
+    }
+
 }

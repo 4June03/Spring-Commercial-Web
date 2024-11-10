@@ -134,6 +134,15 @@ public class HomeController {
         return "redirect:/register";
     }
 
+    @GetMapping("/search")
+    public String searchProduct(@RequestParam String ch, Model model){
+       List<Product> listP =  productService.searchProduct(ch);
+       List<Category> categories = categoryService.getAllActiveCategory();
+       model.addAttribute("products",listP);
+       model.addAttribute("categories",categories);
+        return "product";
+    }
+
 
 
 

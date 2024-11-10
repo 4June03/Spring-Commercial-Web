@@ -7,6 +7,7 @@ import com.example.Ecommercial_project.Shoping.website.model.UserDtls;
 import com.example.Ecommercial_project.Shoping.website.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -26,14 +27,16 @@ public class UserController {
     private UserService userService;
     private CartService cartService;
     private OrderService orderService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(CategoryService categoryService, ProductService productService, UserService userService, CartService cartService, OrderService orderService) {
+    public UserController(CategoryService categoryService, ProductService productService, UserService userService, CartService cartService, OrderService orderService, PasswordEncoder passwordEncoder) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userService = userService;
         this.cartService = cartService;
         this.orderService = orderService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -143,6 +146,29 @@ public class UserController {
     @PostMapping("/update-profile")
     public String updateProfile(@ModelAttribute UserDtls user, @RequestParam MultipartFile file){
         userService.updateUserProfile(user, file);
+
+        return "redirect:/user/profile";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam String newPassword, @RequestParam String currentPass, Principal p, HttpSession session){
+        UserDtls user = getLoggedInUserDetails(p);
+        Boolean matches = passwordEncoder.matches(currentPass, user.getPassword());//Check mật khẩu hiện tại nhập vào với mật khẩu có chính xác không
+
+        if(matches){
+            user.setPassword(passwordEncoder.encode(newPassword));
+
+            UserDtls updateUser = userService.updateUser(user);
+
+            if(ObjectUtils.isEmpty(updateUser)){
+                session.setAttribute("errorMsg", "Password is not changed");
+            }else {
+                session.setAttribute("succMsg", "Password is successfully changed");
+            }
+
+        }else {
+            session.setAttribute("errorMsg", "Current Password incorrect");
+        }
 
         return "redirect:/user/profile";
     }

@@ -98,23 +98,33 @@
             <div class="row">
                 <p class="text-center fs-3"> Change Password</p>
 
+                <th:block th:if="${session.succMsg}">
+                    <p class="text-success fw-bold text-center">[[${session.succMsg}]]</p>
+                    <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                </th:block>
+
+                <th:block th:if="${session.errorMsg}">
+                    <p class="text-danger fw-bold text-center">[[${session.errorMsg}]]</p>
+                    <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                </th:block>
+
                 <div class="col-md-6 offset-md-3">
                     <table class="table table-border-less">
                         <tbody>
-                        <form>
+                        <form method="post" action="/user/change-password">
                             <tr>
                                 <th scope="row">Current password</th>
-                                <td><input type="text" class="form-control" value="Nghia" readonly></td>
+                                <td><input type="password" class="form-control" name="currentPass" ></td>
                             </tr>
 
                             <tr>
                                 <th scope="row">New password</th>
-                                <td><input type="text" class="form-control" value="Nghia" readonly></td>
+                                <td><input type="password" class="form-control"  name="newPassword"></td>
                             </tr>
 
                             <tr>
                                 <th scope="row">Confirm new password</th>
-                                <td><input type="text" class="form-control" value="Nghia" readonly></td>
+                                <td><input type="password" class="form-control" name="confirmPassword"></td>
                             </tr>
 
                             <tr>
